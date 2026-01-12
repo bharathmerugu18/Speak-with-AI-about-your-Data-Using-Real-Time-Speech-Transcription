@@ -1,0 +1,25 @@
+import openai
+from data_reader import read_data
+
+openai.api_key = "YOUR_API_KEY"
+
+def get_ai_response(user_question):
+    data = read_data()
+
+    prompt = f"""
+    You are an AI assistant.
+    Answer the question using the data below.
+
+    Data:
+    {data}
+
+    Question:
+    {user_question}
+    """
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    return response.choices[0].message.content
